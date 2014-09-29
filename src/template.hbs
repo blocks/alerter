@@ -1,0 +1,9 @@
+<div class="alert-message alert-message--{{type}}">
+  <button type="button" class="alert-message__close-button">
+    <span aria-hidden="true">&times;</span>
+
+    {{!This span is for screen readers only, the inline CSS hides it from display while keeping it visible for screen readers.}}
+    <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;">Close</span>
+  </button>
+  {{{message}}}
+</div>
