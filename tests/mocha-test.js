@@ -7,7 +7,7 @@ var objectMerge = require('object-merge');
 var browserStackConfig = {
   'browserstack.local' : 'true',
   'browserstack.user' : 'sparkart',
-  'browserstack.key' : '***REMOVED***',
+  'browserstack.key' : '',
   'project': 'Alerter Block'
 }
 
@@ -52,6 +52,9 @@ setups.forEach(function (setup) {
     var driver;
 
     test.before(function() {
+      if (browserStackConfig['browserstack.key'].length < 1) {
+        console.log('browserstack.key in the browserStackConfig object cannot be empty.');
+      }
       var capabilities = objectMerge(browserStackConfig, setup);
       driver = setupDriver(capabilities);
     });
