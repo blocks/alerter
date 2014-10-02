@@ -1,9 +1,9 @@
 {
-  "name": "alerts",
+  "name": "alerter",
   "version": "0.0.0",
   "private": "true",
   "description": "a standard way to display messaging that is arbitrarily defined by developers to communicate certain states",
-  "main": "index.js",
+  "main": "build/alerter.js",
   "repository": {
     "type": "git",
     "url": "https://josiahsprague@github.com/blocks/alerts.git"
