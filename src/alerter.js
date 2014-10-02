@@ -11,10 +11,6 @@ function Alerter (options) {
   options = options || {};
   options = setDefaults(options);
 
-  if (options.template) {
-    template = options.template;
-  }
-
   if (options.appendTo.jquery) {
     this.appendTo = options.appendTo[0];
   } else {
@@ -28,8 +24,13 @@ Alerter.prototype.create = function (message, type) {
 
   var instance = this;
 
+  var templateOptions = {};
+  templateOptions.message = message || 'Alert!';
+  templateOptions.type = type || 'info';
+  templateOptions.namespace = 'alert-message';
+
   var alert = document.createElement('div');
-  alert.innerHTML = template({type: type, message: message});
+  alert.innerHTML = template(templateOptions);
   this.appendTo.insertBefore(alert, this.appendBefore);
   this.emit('alertCreated', alert);
 
@@ -56,5 +57,12 @@ Alerter.prototype.dismiss = function (alert) {
 //Private Functions
 function setDefaults(options) {
   options.appendTo = options.appendTo || 'body';
+
+  //This is the closest we can get to checking if the template option is a
+  //compiled handlebars template before using it
+  if (typeof options.template === 'function') {
+    template = options.template;
+  }
+
   return options;
 }

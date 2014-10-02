@@ -12,10 +12,6 @@ function Alerter (options) {
   options = options || {};
   options = setDefaults(options);
 
-  if (options.template) {
-    template = options.template;
-  }
-
   if (options.appendTo.jquery) {
     this.appendTo = options.appendTo[0];
   } else {
@@ -29,8 +25,15 @@ Alerter.prototype.create = function (message, type) {
 
   var instance = this;
 
+  var templateOptions = {};
+  templateOptions.message = message || 'Alert!';
+  templateOptions.type = type || 'info';
+  templateOptions.namespace = 'alert-message';
+
+  console.log(instance.options);
+
   var alert = document.createElement('div');
-  alert.innerHTML = template({type: type, message: message});
+  alert.innerHTML = template(templateOptions);
   this.appendTo.insertBefore(alert, this.appendBefore);
   this.emit('alertCreated', alert);
 
@@ -57,6 +60,13 @@ Alerter.prototype.dismiss = function (alert) {
 //Private Functions
 function setDefaults(options) {
   options.appendTo = options.appendTo || 'body';
+
+  //This is the closest we can get to checking if the template option is a
+  //compiled handlebars template before using it
+  if (typeof options.template === 'function') {
+    template = options.template;
+  }
+
   return options;
 }
 },{"./template.hbs":12,"events":2,"inherits":11}],2:[function(_dereq_,module,exports){
@@ -874,11 +884,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class=\"alert-message alert-message--";
+  buffer += "<div class=\"";
+  if (helper = helpers.namespace) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.namespace); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + " ";
+  if (helper = helpers.namespace) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.namespace); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "--";
   if (helper = helpers.type) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.type); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\">\n  <button type=\"button\" class=\"alert-message__close-button\">\n    <span aria-hidden=\"true\">&times;</span>\n\n    \n    <span style=\"position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;\">Close</span>\n  </button>\n  ";
+    + "\">\n  <button type=\"button\" class=\"";
+  if (helper = helpers.namespace) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.namespace); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "__close-button\">\n    <span aria-hidden=\"true\">&times;</span>\n\n    \n    <span style=\"position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;\">Close</span>\n  </button>\n  ";
   if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
