@@ -11,6 +11,7 @@ function Alerter (options) {
 
   options = options || {};
   options = setDefaults(options);
+  this.template = template;
 
   if (options.appendTo.jquery) {
     this.appendTo = options.appendTo[0];
@@ -19,6 +20,10 @@ function Alerter (options) {
   }
 
   this.appendBefore = this.appendTo.firstChild;
+
+  console.log('Initialized: ', this);
+
+  return this;
 }
 
 Alerter.prototype.create = function (message, type) {
@@ -30,18 +35,20 @@ Alerter.prototype.create = function (message, type) {
   templateOptions.type = type || 'info';
   templateOptions.namespace = 'alert-message';
 
-  console.log(instance.options);
-
   var alert = document.createElement('div');
-  alert.innerHTML = template(templateOptions);
+  alert.innerHTML = this.template(templateOptions);
   this.appendTo.insertBefore(alert, this.appendBefore);
   this.emit('alertCreated', alert);
 
   var closeButton = alert.querySelector('.alert-message__close-button');
 
-  closeButton.addEventListener('click', function(){
-    instance.dismiss(alert);
-  });
+  if (closeButton) {
+    closeButton.addEventListener('click', function(){
+      instance.dismiss(alert);
+    });
+  }
+
+  console.log('Created: ', alert);
 
   return alert;
 };
