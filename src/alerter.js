@@ -9,7 +9,7 @@ function Alerter (options) {
   if (!(this instanceof Alerter)) return new Alerter(options);
 
   options = options || {};
-  options = setDefaults(options);
+  options = setAlerterDefaults(options);
   this.template = template;
 
   if (options.appendTo.jquery) {
@@ -20,23 +20,25 @@ function Alerter (options) {
 
   this.appendBefore = this.appendTo.firstChild;
 
+  this.alerts = [];
+
   return this;
 }
 
-Alerter.prototype.create = function (message, type) {
-
+Alerter.prototype.create = function (options) {
   var instance = this;
+  options = setAlertDefaults(options);
 
-  var templateOptions = {};
-  templateOptions.message = message || 'Alert!';
-  templateOptions.type = type || 'info';
+  if (instance.appendTo.nodeName === 'BODY') {
+    options.pageWide = true;
+  }
 
   var alert = document.createElement('div');
-  alert.innerHTML = this.template(templateOptions);
+  alert.innerHTML = this.template(options);
   this.appendTo.insertBefore(alert, this.appendBefore);
   this.emit('alertCreated', alert);
 
-  var closeButton = alert.querySelector('.alert-message__close-button');
+  var closeButton = alert.querySelector('.alert__close-button');
 
   if (closeButton) {
     closeButton.addEventListener('click', function(){
@@ -44,22 +46,33 @@ Alerter.prototype.create = function (message, type) {
     });
   }
 
+  this.alerts.push(alert);
+
   return alert;
 };
 
 Alerter.prototype.dismiss = function (alert) {
+  var instance = this;
+  alert = alert || this.alerts;
 
-  if (alert.parentNode) {
-    alert.parentNode.removeChild(alert);
+  if (Array.isArray(alert)) {
+    alert.forEach(function(alert){
+      removeAlert(alert);
+    });
+  } else {
+    removeAlert(alert);
   }
 
-  this.emit('alertDismissed', alert);
-
-  return alert;
+  function removeAlert(alert){
+    if (alert.parentNode) {
+      alert.parentNode.removeChild(alert);
+      instance.emit('alertDismissed', alert);
+    }
+  }
 };
 
 //Private Functions
-function setDefaults(options) {
+function setAlerterDefaults(options) {
   options.appendTo = options.appendTo || 'body';
 
   //This is the closest we can get to checking if the template option is a
@@ -67,6 +80,15 @@ function setDefaults(options) {
   if (typeof options.template === 'function') {
     template = options.template;
   }
+
+  return options;
+}
+
+function setAlertDefaults(options) {
+  options.message = options.message || 'Alert';
+  options.details = options.details || false;
+  options.errors = options.errors || false;
+  options.type = options.type || 'info';
 
   return options;
 }

@@ -1,9 +1,18 @@
-<div class="alert alert--{{type}}">
+<div class="alert {{#type}}alert--{{.}}{{/type}} {{#pageWide}}alert--page{{/pageWide}}">
+  {{#dismissable}}
   <button type="button" class="alert__close-button">
     <span aria-hidden="true">&times;</span>
 
     {{!This span is for screen readers only, the inline CSS hides it from display while keeping it visible for screen readers.}}
     <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;">Close</span>
   </button>
-  {{{message}}}
+  {{/dismissable}}
+  {{#message}}<p class="alert__message">{{{.}}}</p>{{/message}}
+  {{#details}}<p class="alert__details">{{{.}}}</p>{{/details}}
+
+  {{#errors}}<ul class="alert__errors">{{/errors}}
+    {{#each errors}}
+    <li class="alert__error">{{.}}</li>
+    {{/each}}
+  {{#errors}}</ul>{{/errors}}
 </div>
