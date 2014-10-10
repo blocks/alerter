@@ -10,16 +10,14 @@ function Alerter (options) {
   if (!(this instanceof Alerter)) return new Alerter(options);
 
   options = options || {};
-  options = setAlerterDefaults(options);
+  options = _setAlerterDefaults(options);
   this.template = template;
 
-  if (options.appendTo.jquery) {
-    this.appendTo = options.appendTo[0];
+  if (options.prependTo.jquery) {
+    this.prependTo = options.prependTo[0];
   } else {
-    this.appendTo = document.querySelector(options.appendTo);
+    this.prependTo = document.querySelector(options.prependTo);
   }
-
-  this.appendBefore = this.appendTo.firstChild;
 
   this.alerts = [];
 
@@ -28,15 +26,15 @@ function Alerter (options) {
 
 Alerter.prototype.create = function (options) {
   var instance = this;
-  options = setAlertDefaults(options);
+  options = _setAlertDefaults(options);
 
-  if (instance.appendTo.nodeName === 'BODY') {
+  if (instance.prependTo.nodeName === 'BODY') {
     options.pageWide = true;
   }
 
   var alert = document.createElement('div');
   alert.innerHTML = this.template(options);
-  this.appendTo.insertBefore(alert, this.appendBefore);
+  this.prependTo.insertBefore(alert, this.prependTo.firstChild);
   this.emit('alertCreated', alert);
 
   var closeButton = alert.querySelector('.alert__close-button');
@@ -73,8 +71,8 @@ Alerter.prototype.dismiss = function (alert) {
 };
 
 //Private Functions
-function setAlerterDefaults(options) {
-  options.appendTo = options.appendTo || 'body';
+function _setAlerterDefaults(options) {
+  options.prependTo = options.prependTo || 'body';
 
   //This is the closest we can get to checking if the template option is a
   //compiled handlebars template before using it
@@ -85,11 +83,11 @@ function setAlerterDefaults(options) {
   return options;
 }
 
-function setAlertDefaults(options) {
+function _setAlertDefaults(options) {
   options.message = options.message || 'Alert';
   options.details = options.details || false;
   options.errors = options.errors || false;
-  options.type = options.type || 'info';
+  options.type = options.type || false;
 
   return options;
 }
@@ -923,9 +921,8 @@ function program3(depth0,data) {
 
 function program5(depth0,data) {
   
-  var buffer = "";
-  buffer += "\n  <button type=\"button\" class=\"alert__close-button\">\n    <span aria-hidden=\"true\">&times;</span>\n\n    \n    <span style=\"position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;\">Close</span>\n  </button>\n  ";
-  return buffer;
+  
+  return "\n  <button type=\"button\" class=\"alert__close-button\" title=\"Dismiss alert\" aria-label=\"Dismiss alert\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n  ";
   }
 
 function program7(depth0,data) {
@@ -948,25 +945,23 @@ function program9(depth0,data) {
   return buffer;
   }
 
-function program11(depth0,data) {
+function program11(depth0,data,depth1) {
   
-  
-  return "<ul class=\"alert__errors\">";
-  }
-
-function program13(depth0,data) {
-  
-  var buffer = "";
-  buffer += "\n    <li class=\"alert__error\">"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</li>\n    ";
+  var buffer = "", stack1;
+  buffer += "\n  <ul class=\"alert__errors\">\n    ";
+  stack1 = helpers.each.call(depth0, (depth1 && depth1.errors), {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n  </ul>\n  ";
   return buffer;
   }
-
-function program15(depth0,data) {
+function program12(depth0,data) {
   
-  
-  return "</ul>";
+  var buffer = "", stack1;
+  buffer += "\n    <li class=\"alert__error\">";
+  stack1 = (typeof depth0 === functionType ? depth0.apply(depth0) : depth0);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</li>\n    ";
+  return buffer;
   }
 
   buffer += "<div class=\"alert ";
@@ -981,7 +976,7 @@ function program15(depth0,data) {
   else { helper = (depth0 && depth0.pageWide); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
   if (!helpers.pageWide) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data}); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\">\n  ";
+  buffer += "\" role=\"alert\">\n  ";
   options={hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data}
   if (helper = helpers.dismissable) { stack1 = helper.call(depth0, options); }
   else { helper = (depth0 && depth0.dismissable); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
@@ -1000,19 +995,7 @@ function program15(depth0,data) {
   if (!helpers.details) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data}); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n  ";
-  options={hash:{},inverse:self.noop,fn:self.program(11, program11, data),data:data}
-  if (helper = helpers.errors) { stack1 = helper.call(depth0, options); }
-  else { helper = (depth0 && depth0.errors); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
-  if (!helpers.errors) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(11, program11, data),data:data}); }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    ";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.errors), {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n  ";
-  options={hash:{},inverse:self.noop,fn:self.program(15, program15, data),data:data}
-  if (helper = helpers.errors) { stack1 = helper.call(depth0, options); }
-  else { helper = (depth0 && depth0.errors); stack1 = typeof helper === functionType ? helper.call(depth0, options) : helper; }
-  if (!helpers.errors) { stack1 = blockHelperMissing.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(15, program15, data),data:data}); }
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.errors), {hash:{},inverse:self.noop,fn:self.programWithDepth(11, program11, data, depth0),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</div>";
   return buffer;

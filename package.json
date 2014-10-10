@@ -3,21 +3,25 @@
   "version": "0.0.0",
   "private": "true",
   "description": "a standard way to display messaging that is arbitrarily defined by developers to communicate certain states",
-  "main": "build/alerter.js",
+  "main": "src/alerter.js",
   "repository": {
     "type": "git",
-    "url": "https://josiahsprague@github.com/blocks/alerts.git"
+    "url": "https://github.com/blocks/alerter.git"
   },
   "keywords": [
     "alert",
-    "alerts"
+    "alerts",
+    "alerter",
+    "blocks",
+    "browser",
+    "browserify"
   ],
   "author": "Josiah Sprague <josiah.sprague@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/blocks/alerts/issues"
+    "url": "https://github.com/blocks/alerter/issues"
   },
-  "homepage": "https://github.com/blocks/alerts",
+  "homepage": "https://github.com/blocks/alerter",
   "devDependencies": {
     "browserify": "^5.11.1",
     "browserstack-webdriver": "^2.41.1",

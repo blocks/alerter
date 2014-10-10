@@ -5,6 +5,29 @@
     <script src="../build/alerter.js"></script>
   </head>
   <body>
-    <p>This page contains tests for the <code>Alerter()</code> module.</p>
+    <button type="button" id="createAlert">Create Alert</button>
+    <button type="button" id="dismissAlert">Dismiss Alert</button>
+    <script>
+      var myAlerter = new Alerter({
+        appendTo: 'body'
+      });
+
+      document.getElementById("createAlert")
+        .addEventListener("click", function(e) {
+          myAlerter.create({
+            message: 'Heyo whaddayakno?',
+            details: 'Here are some details.',
+            errors: ['One', 'Two'],
+            type: 'error',
+            dismissable: true
+          });
+        }, false);
+
+      document.getElementById("dismissAlert")
+        .addEventListener("click", function(e) {
+          myAlerter.dismiss();
+        }, false);
+
+    </script>
   </body>
 </html>

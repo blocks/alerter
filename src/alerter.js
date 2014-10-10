@@ -9,16 +9,14 @@ function Alerter (options) {
   if (!(this instanceof Alerter)) return new Alerter(options);
 
   options = options || {};
-  options = setAlerterDefaults(options);
+  options = _setAlerterDefaults(options);
   this.template = template;
 
-  if (options.appendTo.jquery) {
-    this.appendTo = options.appendTo[0];
+  if (options.prependTo.jquery) {
+    this.prependTo = options.prependTo[0];
   } else {
-    this.appendTo = document.querySelector(options.appendTo);
+    this.prependTo = document.querySelector(options.prependTo);
   }
-
-  this.appendBefore = this.appendTo.firstChild;
 
   this.alerts = [];
 
@@ -27,15 +25,15 @@ function Alerter (options) {
 
 Alerter.prototype.create = function (options) {
   var instance = this;
-  options = setAlertDefaults(options);
+  options = _setAlertDefaults(options);
 
-  if (instance.appendTo.nodeName === 'BODY') {
+  if (instance.prependTo.nodeName === 'BODY') {
     options.pageWide = true;
   }
 
   var alert = document.createElement('div');
   alert.innerHTML = this.template(options);
-  this.appendTo.insertBefore(alert, this.appendBefore);
+  this.prependTo.insertBefore(alert, this.prependTo.firstChild);
   this.emit('alertCreated', alert);
 
   var closeButton = alert.querySelector('.alert__close-button');
@@ -72,8 +70,8 @@ Alerter.prototype.dismiss = function (alert) {
 };
 
 //Private Functions
-function setAlerterDefaults(options) {
-  options.appendTo = options.appendTo || 'body';
+function _setAlerterDefaults(options) {
+  options.prependTo = options.prependTo || 'body';
 
   //This is the closest we can get to checking if the template option is a
   //compiled handlebars template before using it
@@ -84,11 +82,11 @@ function setAlerterDefaults(options) {
   return options;
 }
 
-function setAlertDefaults(options) {
+function _setAlertDefaults(options) {
   options.message = options.message || 'Alert';
   options.details = options.details || false;
   options.errors = options.errors || false;
-  options.type = options.type || 'info';
+  options.type = options.type || false;
 
   return options;
 }
