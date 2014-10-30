@@ -38,8 +38,14 @@ Out of the box, the module will generate BEM markup with the namespace `alert` t
 
 ### `Alerter.create(message, type)`
 Creates a new alert DOM object and injects it into the page via the `Alerter()` object.
-- `message` **(Required)** this is a string with the message you want to display. You can use plain text or an HTML string.
+- `message` **(Required)** this is a string with the message you want to display. You can use plain text or an HTML string with inline tags.
+- `detail` This is a string with more details related to the main message.
+- `errors` This is an array of strings. It will be displayed as a `<ul>` in the default template, and can be useful for listing specific items that need to be addressed by the user.
+- `dismissable`  Boolean. Whether or not to display a close button on the alert. Defaults to `true`.
 - `type` is a string and allows you to choose the class of alert which can be used for CSS styling, attaching events, etc. This string will be combined with the BEM namespace and used to generate a BEM class name in the inserted markup. For example, passing `'warning'` as the type will result in the alert element having a class name of `alert--warning`. The default is `false`, which will result in a class name of `alert`.
+
+### `Alerter.dismiss(alert)`
+When this method is called on an `Alerter` instance, it dismisses all alerts which originated from that instance. If you want to dismiss one specific alert, you can pass in the alert instance itself.
 
 ## Events
 Every instance of `Alerter()` will emit events when an alert is created or dismissed. You can listen for these events to assist with transitions, modal dialogs, cleanup, etc in your app.
