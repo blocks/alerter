@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Alerter Tests</title>
-    <script src="../build/alerter.js"></script>
+    <title>Alerter Demo</title>
+    <script src="../../build/alerter.js"></script>
+    <script src="sinon.js"></script>
+    <script src="sinon-ie.js"></script>
   </head>
   <body>
     <button type="button" id="createAlert">Create Alert</button>
     <button type="button" id="dismissAlert">Dismiss Alerts</button>
     <script>
       var myAlerter = new Alerter({
-        appendTo: 'body'
+        prependTo: 'body'
       });
 
       document.getElementById("createAlert")

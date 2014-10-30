@@ -1,26 +1,104 @@
-/*
-  gulpfile.js
-  ===========
-  Rather than manage one giant configuration file responsible
-  for creating multiple tasks, each task has been broken out into
-  its own file in `/gulp`. Any file in that folder gets automatically
-  required below.
-
-  To add a new task, simply add a new task file to the `/gulp` directory.
-*/
 var gulp = require('gulp');
-var requireDir = require('require-dir');
 var runSequence = require('run-sequence');
+var browserify = require('browserify');
+var hbsfy = require('hbsfy');
+var source = require('vinyl-source-stream');
+var derequire = require('gulp-derequire');
+var http = require('http');
+var ecstatic = require('ecstatic');
+var BrowserStackTunnel = require('browserstacktunnel-wrapper');
+var mocha = require('gulp-spawn-mocha');
 
-// Require all tasks in gulp/tasks, including subfolders
-requireDir('./gulp', { recurse: true });
+function handleError(err) {
+  console.log(err.message);
+  this.emit('end');
+}
 
 // Task groups
-gulp.task('default', ['build', 'startServer']);
-gulp.task('test', function(callback) {
-  runSequence('default',
-              'BrowserStackTunnel',
-              'mocha',
-              callback);
+gulp.task('default', ['build', 'build-tests', 'start-server']);
+
+gulp.task('test', function(cb) {
+  runSequence(
+    ['build', 'build-tests', 'start-server', 'start-browserstack-tunnel'],
+    'run-selenium',
+    ['stop-test-server', 'stop-browserstack-tunnel'],
+    cb
+  );
 });
-gulp.task('build', ['browserify']);
+
+gulp.task('manual-test', ['default', 'start-browserstack-tunnel'])
+
+gulp.task('build', function() {
+  var bundler = browserify({
+    entries: ['./src/alerter.js'],
+    standalone: 'Alerter'
+  });
+  var bundle = function() {
+    return bundler
+      .transform({global: true}, hbsfy)
+      .bundle()
+      .pipe(source('alerter.js'))
+      .pipe(derequire())
+      .pipe(gulp.dest('./build/'));
+  };
+  return bundle();
+});
+
+gulp.task('build-tests', function() {
+  var bundler = browserify({
+    entries: ['./test/tests.js']
+  });
+  var bundle = function() {
+    return bundler
+      .transform({global: true}, hbsfy)
+      .bundle()
+      .pipe(source('tests.js'))
+      .pipe(derequire())
+      .pipe(gulp.dest('./test/mocha/'));
+  };
+  return bundle();
+});
+
+var devServer;
+gulp.task('start-server', function(cb) {
+  devServer = http.createServer(
+    ecstatic({ root: './' })
+  ).listen(8080);
+  console.log('Listening on :8080');
+  cb();
+});
+
+gulp.task('stop-test-server', function(cb) {
+  devServer.close(cb);
+});
+
+var browserStackTunnel;
+gulp.task('start-browserstack-tunnel', function(cb) {
+  browserStackTunnel = new BrowserStackTunnel({
+    key: '',
+    hosts: [{
+      name: 'localhost',
+      port: 3000,
+      sslFlag: 0
+    }],
+    v: true
+  });
+  browserStackTunnel.start(function(error) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('BrowserStack Tunnel Started');
+      cb();
+    }
+  });
+});
+
+gulp.task('stop-browserstack-tunnel', function(cb) {
+  browserStackTunnel.stop(cb);
+});
+
+gulp.task('run-selenium', function () {
+  return gulp.src('test/selenium-driver.js', {read: false})
+    .pipe(mocha({timeout: 55000}))
+    .on('error', handleError);
+});
