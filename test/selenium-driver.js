@@ -56,6 +56,8 @@ setups.forEach(function (setup) {
       driver.get('http://localhost:8080/test/mocha/test.html');
     });
 
+    test.after(function() { driver.quit(); });
+
     test.it('all tests pass', function() {
       driver.wait(function() {
         return driver.executeScript('return mocha_finished;').then(function(finished) {
@@ -63,7 +65,7 @@ setups.forEach(function (setup) {
 
           return driver.executeScript('return mocha_stats;').then(function(stats) {
             assert(stats.tests > 0, 'No mocha tests were run');
-            assert(stats.failures <= 0, 'Some mocha tests failed, run locally for details');
+            assert(stats.failures <= 0, 'Tests failed, run manually' + setupDescription + ' for details');
             if (!stats.failures) return true;
 
             return driver.executeScript('return mocha_failures;').then(function(failures) {
@@ -76,43 +78,5 @@ setups.forEach(function (setup) {
         });
       });
     });
-  });
-
-  test.describe('User Interaction' + setupDescription, function() {
-
-    test.before(function() {
-      driver.get('http://localhost:8080/test/demo/tests.html');
-    });
-
-    test.describe('create alert', function() {
-      test.before(function(){
-        //driver.executeScript('try { setupSinonSpies(' + service.obj + '); } catch (ex) { return "Error: " + ex; }');
-        //click create button
-      });
-
-      test.it('Inserts alert in DOM');
-      test.it('Emits alertCreated Event');
-      test.after(function(){
-        //driver.executeScript('resetSinonSpies();');
-      });
-
-    });
-
-    test.describe('dismiss alert', function() {
-      test.before(function(){
-        //driver.executeScript('try { setupSinonSpies(' + service.obj + '); } catch (ex) { return "Error: " + ex; }');
-        //click create button
-      });
-
-      test.it('Removes alert from DOM');
-      test.it('Emits alertDismissed Event');
-      test.after(function(){
-        //driver.executeScript('resetSinonSpies();');
-      });
-
-    });
-
-    test.after(function() { driver.quit(); });
-
   });
 });
