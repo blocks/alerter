@@ -31,9 +31,11 @@ Alerter.prototype.create = function (options) {
     options.pageWide = true;
   }
 
-  var alert = document.createElement('div');
-  alert.innerHTML = this.template(options);
-  this.prependTo.insertBefore(alert, this.prependTo.firstChild);
+  var tempDiv = document.createElement('div');
+  this.prependTo.insertBefore(tempDiv, this.prependTo.firstChild);
+  tempDiv.outerHTML = this.template(options);
+  var alert = document.getElementById(options.id);
+
   this.emit('alertCreated', alert);
 
   var closeButton = alert.querySelector('.alert__close-button');
@@ -87,6 +89,7 @@ function _setAlertDefaults(options) {
   options.details = options.details || false;
   options.errors = options.errors || false;
   options.type = options.type || false;
+  options.id = 'alert-' + Math.floor(Math.random() * 10000);//random number
 
   return options;
 }
