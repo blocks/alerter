@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Alerter Demo</title>
+    <script src="../../build/alerter.js"></script>
+    <script src="sinon.js"></script>
+    <script src="sinon-ie.js"></script>
+  </head>
+  <body>
+    <button type="button" id="createAlert">Create Alert</button>
+    <button type="button" id="dismissAlert">Dismiss Alerts</button>
+    <script>
+      var myAlerter = new Alerter({
+        prependTo: 'body'
+      });
+
+      document.getElementById("createAlert")
+        .addEventListener("click", function(e) {
+          myAlerter.create({
+            message: 'Heyo whaddayakno?',
+            details: 'Here are some details.',
+            errors: ['Error One', 'Error Two'],
+            type: 'error',
+            dismissable: true
+          });
+        }, false);
+
+      document.getElementById("dismissAlert")
+        .addEventListener("click", function(e) {
+          myAlerter.dismiss();
+        }, false);
+
+    </script>
+  </body>
+</html>
