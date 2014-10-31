@@ -14,14 +14,12 @@ You can get the module in any one of the following ways;
 To get started, you'll need to include the script on your page. To create an `Alerter()` instance you can do;
 
 ```
-var myAlerter = new Alerter({
-  prependTo: 'body'
-});
+var myAlerter = new Alerter();
 ```
 
 You can then create an alert like this;
 
-`var myAlert = myAlerter.create(message, 'warning');`
+`var myAlert = myAlerter.create(message);`
 
 # Advanced Usage
 
@@ -57,4 +55,4 @@ Fires whenever an alert is created. Contains a payload object with the alert mes
 Fires whenever an alert message is dismissed. Contains a payload object with the unique id of the alert that was dismissed.
 
 # Testing the Module
-If you want to build and test this module yourself, you can do so by running `gulp` to build the module and start a server or `gulp test` to build the module, start a server, open a tunnel to BrowserStack and run mocha tests. Before you can run mocha tests, you'll have to define a BrowserStack key in both `/tests/mocha-test.js` and `/gulp/startBrowserStackTunnel.js`.
+If you want to build and test this module yourself, you can do so by running `gulp` to build the module and start a server or `gulp test` to build the module, start a server, open a tunnel to BrowserStack and run mocha tests. Before you can run mocha tests, you'll have to define a BrowserStack key and username in `/test/selenium-driver.js` and BrowserStack key in `/gulp/startBrowserStackTunnel.js`.

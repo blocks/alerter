@@ -1,0 +1,24 @@
+{
+  "name": "alerter",
+  "homepage": "https://github.com/blocks/alerter",
+  "authors": [
+    "Josiah Sprague <josiah.sprague@gmail.com>"
+  ],
+  "description": "Alerter is a UMD JavaScript module for displaying arbitrary messaging to communicate certain states in a web app.",
+  "main": "src/alerter.js",
+  "keywords": [
+    "alert",
+    "alerts",
+    "alerter",
+    "blocks",
+    "browser",
+    "browserify"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "build",
+    "test"
+  ]
+}

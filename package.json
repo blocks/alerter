@@ -1,8 +1,7 @@
 {
   "name": "alerter",
-  "version": "0.0.0",
-  "private": "true",
-  "description": "a standard way to display messaging that is arbitrarily defined by developers to communicate certain states",
+  "version": "1.0.0",
+  "description": "Alerter is a UMD JavaScript module for displaying arbitrary messaging to communicate certain states in a web app.",
   "main": "src/alerter.js",
   "repository": {
     "type": "git",
@@ -43,8 +42,5 @@
     "require-dir": "^0.1.0",
     "run-sequence": "~0.3.7",
     "vinyl-source-stream": "^0.1.1"
-  },
-  "dependencies": {
-    "inherits": "^2.0.1"
   }
 }
