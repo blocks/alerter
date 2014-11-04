@@ -1,5 +1,5 @@
 {
-  "name": "alerter",
+  "name": "blocks-alerter",
   "version": "1.0.0",
   "description": "Alerter is a UMD JavaScript module for displaying arbitrary messaging to communicate certain states in a web app.",
   "main": "src/alerter.js",
