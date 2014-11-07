@@ -5,10 +5,16 @@ An `Alerter()` instance does two things;
 2) Emits events when alerts are created or dismissed.
 
 # Getting the Module
-You can get the module in any one of the following ways;
-- Download [the latest release](https://github.com/blocks/alerter/releases) from GitHub
-- Or install with npm; `npm install alerter`
-- Or install with Bower; `bower install alerter`
+From GitHub;
+- Download [the latest release](https://github.com/blocks/alerter/releases)
+
+Using npm;
+- `npm install blocks-alerter`
+
+Using Bower;
+- [Install using the tarball URL][http://bower.io/docs/api/#install] (best option)
+- Use browserify or webpack to consume the CommonJS module
+- Install dependencies and run `gulp build` after installing/updating with Bower
 
 # Quick Start
 To get started, you'll need to include the script on your page. To create an `Alerter()` instance you can do;

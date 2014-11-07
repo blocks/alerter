@@ -1,8 +1,12 @@
 {
   "name": "blocks-alerter",
   "version": "1.0.0",
-  "description": "Alerter is a UMD JavaScript module for displaying arbitrary messaging to communicate certain states in a web app.",
+  "description": "Injects notification and alert markup and UI in the browser.",
   "main": "src/alerter.js",
+  "files": [
+    "src",
+    "gulpfile.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/blocks/alerter.git"
