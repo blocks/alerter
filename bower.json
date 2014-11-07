@@ -1,0 +1,24 @@
+{
+  "name": "alerter",
+  "homepage": "https://github.com/blocks/alerter",
+  "authors": [
+    "Josiah Sprague <josiah.sprague@gmail.com>"
+  ],
+  "description": "Injects notification and alert markup and UI in the browser.",
+  "main": "build/alerter.js",
+  "keywords": [
+    "alert",
+    "alerts",
+    "alerter",
+    "blocks",
+    "browser",
+    "browserify"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "build",
+    "test"
+  ]
+}

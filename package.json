@@ -1,9 +1,12 @@
 {
-  "name": "alerter",
-  "version": "0.0.0",
-  "private": "true",
-  "description": "a standard way to display messaging that is arbitrarily defined by developers to communicate certain states",
+  "name": "blocks-alerter",
+  "version": "1.0.0",
+  "description": "Injects notification and alert markup and UI in the browser.",
   "main": "src/alerter.js",
+  "files": [
+    "src",
+    "gulpfile.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/blocks/alerter.git"
@@ -43,8 +46,5 @@
     "require-dir": "^0.1.0",
     "run-sequence": "~0.3.7",
     "vinyl-source-stream": "^0.1.1"
-  },
-  "dependencies": {
-    "inherits": "^2.0.1"
   }
 }
