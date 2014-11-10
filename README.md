@@ -25,7 +25,15 @@ var myAlerter = new Alerter();
 
 You can then create an alert like this;
 
-`var myAlert = myAlerter.create(message);`
+```
+var myAlert = myAlerter.create(message);
+```
+
+And dismiss the alert like this;
+
+```
+myAlerter.dismiss(myAlert);
+```
 
 # Advanced Usage
 
