@@ -15,8 +15,6 @@ Using Bower;
 - [Install using the tarball URL](http://bower.io/docs/api/#install) (best option)
 - Or use browserify or webpack to consume the CommonJS module
 
-**Note:** *If you're including this module via Browserify, you need to apply the `hbsfy` transform globally.*
-
 # Quick Start
 To get started, you'll need to include the script on your page. To create an `Alerter()` instance you can do;
 
