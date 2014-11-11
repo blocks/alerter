@@ -12,9 +12,10 @@ Using npm;
 - `npm install blocks-alerter`
 
 Using Bower;
-- [Install using the tarball URL][http://bower.io/docs/api/#install] (best option)
-- Use browserify or webpack to consume the CommonJS module
-- Install dependencies and run `gulp build` after installing/updating with Bower
+- [Install using the tarball URL](http://bower.io/docs/api/#install) (best option)
+- Or use browserify or webpack to consume the CommonJS module
+
+**Note:** *If you're including this module via Browserify, you need to apply the `hbsfy` transform globally.*
 
 # Quick Start
 To get started, you'll need to include the script on your page. To create an `Alerter()` instance you can do;
@@ -26,7 +27,7 @@ var myAlerter = new Alerter();
 You can then create an alert like this;
 
 ```
-var myAlert = myAlerter.create(message);
+var myAlert = myAlerter.create({message: 'Hello!'});
 ```
 
 And dismiss the alert like this;
@@ -48,8 +49,8 @@ Out of the box, the module will generate BEM markup with the namespace `alert` t
 
 ## Methods
 
-### `Alerter.create(message, type)`
-Creates a new alert DOM object and injects it into the page via the `Alerter()` object.
+### `Alerter.create(optionsHash)`
+Creates a new alert DOM object and injects it into the page via the `Alerter()` object. You can pass the following options in;
 - `message` **(Required)** this is a string with the message you want to display. You can use plain text or an HTML string with inline tags.
 - `detail` This is a string with more details related to the main message.
 - `errors` This is an array of strings. It will be displayed as a `<ul>` in the default template, and can be useful for listing specific items that need to be addressed by the user.
