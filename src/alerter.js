@@ -14,6 +14,8 @@ function Alerter (options) {
 
   if (options.prependTo.jquery) {
     this.prependTo = options.prependTo[0];
+  } else if (options.prependTo.nodeType > 0) {
+    this.prependTo = options.prependTo;
   } else {
     this.prependTo = document.querySelector(options.prependTo);
   }

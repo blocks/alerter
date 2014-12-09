@@ -48,7 +48,7 @@ describe('Alerter Module', function() {
 
   describe('prependTo parameter', function() {
 
-    it('accepts a DOM selector string as the element prepend alerts into', function(done){
+    it('accepts a DOM selector string as the element to prepend alerts into', function(done){
       var myAlerter = new Alerter({
         prependTo: '#test-element'
       });
@@ -58,7 +58,17 @@ describe('Alerter Module', function() {
       done();
     });
 
-    it('accepts a jQuery object as the element prepend alerts into', function(done){
+    it('accepts a DOM Node as the element to prepend alerts into', function(done){
+      var myAlerter = new Alerter({
+        prependTo: document.querySelector('#test-element')
+      });
+      myAlerter.create({message: 'test'});
+      var alerts = $('#test-element .alert');
+      assert(alerts.length === 1);
+      done();
+    });
+
+    it('accepts a jQuery object as the element to prepend alerts into', function(done){
       var testElement = $('#test-element');
       var myAlerter = new Alerter({
         prependTo: testElement
