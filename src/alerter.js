@@ -40,7 +40,7 @@ Alerter.prototype.create = function (options) {
 
   this.emit('alertCreated', alert);
 
-  var closeButton = alert.querySelector('.alert__close-button');
+  var closeButton = options.dismissable && alert.querySelector('.alert__close-button');
 
   if (closeButton) {
     closeButton.addEventListener('click', function(){
