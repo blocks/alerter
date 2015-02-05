@@ -38,7 +38,7 @@ Alerter.prototype.create = function (options) {
   tempDiv.outerHTML = this.template(options);
   var alert = document.getElementById(options.id);
 
-  this.emit('alertCreated', alert);
+  this.emit('alertCreated', alert, options);
 
   var closeButton = alert.querySelector('.alert__close-button');
 

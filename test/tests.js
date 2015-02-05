@@ -16,13 +16,25 @@ describe('Alerter Module', function() {
   });
 
   describe('Events', function() {
-    it('Emits events', function(done){
+    it('alertCreated event fires on Alerter.create with HTMLElement, options object', function(done){
       var myAlerter = new Alerter({
         prependTo: '#test-element'
       });
-      var spy = sinon.spy(myAlerter, 'emit');
+      var myListener = sinon.spy();
+      myAlerter.on('alertCreated', myListener);
       myAlerter.create({message: 'test'});
-      assert(spy.called);
+      assert(myListener.calledWith(sinon.match.has('tagName'), sinon.match({message: 'test'})));
+      done();
+    });
+    it('alertDismissed event fires on Alerter.dismiss with HTMLElement', function(done){
+      var myAlerter = new Alerter({
+        prependTo: '#test-element'
+      });
+      var myListener = sinon.spy();
+      myAlerter.on('alertDismissed', myListener);
+      myAlerter.create({message: 'test'});
+      myAlerter.dismiss();
+      assert(myListener.calledWith(sinon.match.has('tagName')));
       done();
     });
   });
