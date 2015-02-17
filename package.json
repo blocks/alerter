@@ -47,10 +47,13 @@
   },
   "dependencies": {
     "events": "^1.0.2",
-    "inherits": "^2.0.1",
-    "hbsfy": "^2.1.0"
+    "handlebars": "^3.0.0",
+    "hbsfy": "^2.1.0",
+    "inherits": "^2.0.1"
   },
   "browserify": {
-    "transform": [ "hbsfy" ]
+    "transform": [
+      "hbsfy"
+    ]
   }
 }
