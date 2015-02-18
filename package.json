@@ -1,6 +1,6 @@
 {
   "name": "blocks-alerter",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Injects notification and alert markup and UI in the browser.",
   "main": "src/alerter.js",
   "files": [
