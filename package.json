@@ -50,7 +50,7 @@
     "inherits": "^2.0.1"
   },
   "peerDependencies": {
-    "handlebars": "^3.0.0"
+    "handlebars": "*"
   },
   "browserify": {
     "transform": [
